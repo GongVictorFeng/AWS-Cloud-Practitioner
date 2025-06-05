@@ -32,3 +32,44 @@ On-demand resource provision - also called Elasticity
   * Increase speed and agility
   * Stop spending money running and maintaining data centers
   * "Go global" in minutes
+
+## Regions and Zones
+* Imagine that your application is deployed in a data center in London
+* What would be the challenges?
+  * Slow access for users from other parts of the world (high latency)
+  * What if the data center crashes
+    * Your application goes down (low availability)
+
+Multiple data centers
+* Let's add in one more data center in London
+* What would be the challenges?
+  * Slow access for users from other parts of the world
+  * Solved: What if one data center crashes?
+    * Your application is till available from the other data center
+  * What if the entire region of London is unavailable?
+    * Your application goes down
+
+Multiple regions
+* Let's add a new region: Singapore
+* What would be the challenges?
+  * Partly solved: Slow access for users from other parts of the world
+  * Solved: What if one data center crashes?
+  * Solved: What if the entire region of London is unavailable
+    * Your application is served from Singapore
+
+Regions
+* Imagine setting up your own data centers in different regions around the world
+* AWS provides 20+ regions around the world (expanding every year)
+* Advantages:
+  * Low Latency
+  * Global Footprint
+  * Adhere to government regulations
+  * High Availability
+
+Availability Zones
+* Each AWS Region consists of multiple, isolated and physically separated availability zones
+* Availability zones in a region are connected through low-latency links
+* Each Availability zone:
+  * Can have one or more discrete data centers
+  * Has redundant power, networking, and connectivity
+* (Advantage) Increase availability and fault tolerance of applications in the same regin 
