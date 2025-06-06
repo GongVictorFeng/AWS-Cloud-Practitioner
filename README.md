@@ -141,3 +141,50 @@ Elastic IP Address
 * Elastic IP can be switched to another EC2 instance within the same region
 * Elastic IP remains attached even if you stop the instance. You have to manually detach it
 * You are charged for an Elastic IP when you are NOT using it! Make sure that you explicitly release an Elastic IP when you are not using it
+
+IAAS (Infrastructure as a Service)
+* Use only infrastructure from cloud provider
+  * Computers (virtual or on dedicated hardware), data storage space and Networking features
+* Also called "Lift and Shift"
+* Example: Use EC2 to deploy application
+* Example: Use EC2 to create database
+* Cloud Provider is responsible for:
+  * Physical infrastructure (Hardware, Networking)
+  * Virtualization Layer (Hypervisor, Host OS)
+* Customer is responsible for:
+  * Guest OS upgrades and patches
+  * Application code and Runtime
+  * Application configuration: Availability, Fault Tolerance, Scalability etc
+
+PAAS (Platform as a Service)
+* Use a platform provided by cloud
+* Cloud provider is responsible for:
+  * OS (including upgrades and patches)
+  * Application Runtime
+  * Auto scaling, Availability & Load balancing etc
+* Customer is responsible for:
+  * Application code
+  * Configuration
+* Examples:
+  * AWS Managed Service
+    * Elastic Load Balancing - Distribute incoming traffic across multiple targets
+    * AWS Elastic Beanstalk - Run and Manage Web Apps
+    * Amazon RDS - Relational Databases - MSQL, Oracle, SQL server etc
+
+Elastic Load Balancer
+* Distribute traffic across EC2 instances in one or more AZs in a single region
+* Managed service - AWS ensures that it is highly available
+* Auto-scales to handle huge load
+* Load Balancers can be public or private
+* Health checks - route traffic to healthy instances
+* Four types of Elastic Load Balancers
+  * Classic Load Balancer (Layer 4 and Layer 7)
+    * Old generation supporting layer 4 (TCP/TLS) and layer 7(HTTP/HTTPS) protocols
+    * Not Recommended by AWS
+  * Application Load Balancer (layer 7)
+    * Most popular and frequently used ELB in AWS
+    * New generation supporting HTTP?HTTPS
+    * Supports advanced routing approaches (Headers, Query Params, Path and Host Based)
+  * Network Load Balancer (Layer 4)
+    * New generation supporting TCP/TLS and UDP
+    * Very high performance usecases
