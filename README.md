@@ -187,4 +187,7 @@ Elastic Load Balancer
     * Supports advanced routing approaches (Headers, Query Params, Path and Host Based)
   * Network Load Balancer (Layer 4)
     * New generation supporting TCP/TLS and UDP
-    * Very high performance usecases
+    * Very high performance use cases
+  * Gateway Load Balancer
+    * Use to deploy, scale and run third-party virtual application on AWS
+    * Distribute traffic across multiple virtual appliances, providing a single entry point for all traffic while offering scalability and increased availability
