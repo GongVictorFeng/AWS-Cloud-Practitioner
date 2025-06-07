@@ -142,6 +142,7 @@ Elastic IP Address
 * Elastic IP remains attached even if you stop the instance. You have to manually detach it
 * You are charged for an Elastic IP when you are NOT using it! Make sure that you explicitly release an Elastic IP when you are not using it
 
+## ELB (Elastic Load Balancer)
 IAAS (Infrastructure as a Service)
 * Use only infrastructure from cloud provider
   * Computers (virtual or on dedicated hardware), data storage space and Networking features
@@ -298,3 +299,15 @@ EC2 Saving Plans
   * Commitment: I would spend c dollars per hour on Amazon EC2 instances of a specific instance family (General Purpose, for example) within a specific region
   * Upto 72% off
   * You can switch operating systems
+
+## Elastic BeanStalk
+* Next level of platform as a service (paas)
+* Simplest way to deploy and scale your web application in AWS
+  * Provides end-to-end web application management
+* Supports Java, .Net, Node.js, PHP, Ruby, Python, Go and Docker application
+* No usage charge - Pay for AWS resource provisioned
+* Features:
+  * Automatic load balancing
+  * Auto scaling
+  * Managed platform updates
+  * Application health monitoring
