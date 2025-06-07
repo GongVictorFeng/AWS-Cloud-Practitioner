@@ -191,3 +191,110 @@ Elastic Load Balancer
   * Gateway Load Balancer
     * Use to deploy, scale and run third-party virtual application on AWS
     * Distribute traffic across multiple virtual appliances, providing a single entry point for all traffic while offering scalability and increased availability
+
+Availability 
+* The applications available when the users need them
+* Percentage of time - an application provides operation expected of it
+* Example:
+  * Availability - 99.95%, Downtime (in a month) - 22 minutes
+  * Availability - 99.99%, Downtime (in a month) - 4.5 minutes, most online apps aim for 99.99% (four 9's)
+  * Availability - 99.999%, Downtime (in a month) - 26 seconds, achieving 5 9's is tough
+* Increase Availability:
+  * Deploy to multiple AZs
+  * Deploy to multiple regions
+
+Scalability 
+* A system is handling 1000 transactions per second. Load is expected to increase 10 times in the next month
+  * can we handle a growth in users, traffic, or data size without any drop in the performance?
+  * Does ability to server more growth increase proportionally with resources
+* Ability to adapt to changes in demand (users, data)
+* What are the options that can be considered
+  * Deploy to a bigger instance with bigger CPU and more memory
+  * Increase the number of application instances and set up a load balancer
+* Vertical Scaling
+  * Deploying application/database to bigger instance:
+    * A larger hard drive
+    * A faster CPU
+    * More RAM, CPU, I/O, or networking capabilities 
+  * There are limits to vertical scaling
+  * Vertical Scaling for EC2
+    * Increasing EC2 instances size:
+      * t2.micro to t2.small
+      * t2.small to t2.2xlarge
+* Horizontal Scaling
+  * Deploying multiple instances of application/database
+  * (Typically but not always) Horizontal Scaling is preferred to Vertical Scaling
+    * Vertical scaling has limits
+    * Vertical scaling can be expensive
+    * Horizontal scaling increases availability
+  * (BUT) Horizontal Scaling needs additional infrastructure
+    * Load Balancers etc
+  * Horizontal Scaling for EC2:
+    * Distribute EC2 instances
+      * in a single AZ
+      * in multiple AZs in single region
+      * in multiple AZs in multiple regions
+    * Auto scale: Auto Scaling Group
+    * Distribute load: Elastic Load Balancer
+
+EC2 Tenancy - Shared vs Dedicated
+* Shared Tenancy (Default)
+  * Single host machine can have instances from multiple customers
+* EC2 Dedicated Instances
+  * Virtualized instances on hardware dedicated to one customer
+  * You do not have visibility into the hardware of underlying host
+* EC2 Dedicated Hosts
+  * Physical servers dedicated to one customer
+  * You have visibility into the hardware of underlying host (socket and physical cores)
+  * (Use cases) Regulatory needs or server-bound software licenses like Windows Server, SQL Server
+
+EC2 Pricing Models Overview
+* On Demand
+  * Request when you want it
+  * Flexible and Most expensive
+* Spot
+  * Quote the maximum price
+  * Cheapest (upto 90% off) but no guarantees
+* Reserved
+  * Reserve ahead of time
+  * Upto 75% off. 1 or 3 years reservation
+* Saving plans
+  * Commit spending $X per hours on (EC2 or AWS Fargate or Lambda)
+  * Upto 66% off. No restrictions. 1 or 3 years reservation
+
+EC2 On-Demand
+* On demand resource provisioning - Use and Throw
+* Highest cost and highest flexibility
+* Ideal for:
+  * A web application which receives spiky traffic
+  * A batch program which has unpredictable runtime and can not be interrupted
+  * A batch program being move from on-premises to cloud for the first time
+
+EC2 Spot instances
+* (Old Model) Bid a price. Highest bidder wins
+* (new Model) Quote your maximum price. Prices decided by long term trends
+* Up to 90% off 
+* Can be terminated with a 2 minutes notice
+* Ideal for Non-time-critical workloads that can tolerant interruptions (fault-tolerance)
+  * A batch program that does not have a strict deadline and can be stopped at short notice and re-started
+
+EC2 Reserved Instances
+* Reserve EC2 instances ahead of time
+* Get upto 75% off
+* Payment models
+  * No Upfront - $0 upfront. Pay monthly installment
+  * Partial Upfront - $XYZ upfront. Pay monthly installment
+  * Partial Upfront - $XYZ upfront. Pay monthly installment
+  * Cost wise : Earlier you pay, more the discount. All Upfront < Partial Upfront < No Upfront
+
+EC2 Saving Plans
+* EC2 Compute Savings Plans
+  * Commitment: I would spend X dollars per hour on AWS compute resources (Amazon EC2 instances, AWS Fargate and/or AWS Lambda) for a 1 or 3 years period
+  * Upto 66% off
+  * Provides complete flexibility:
+    * You can change instance family, size, OS, tenancy or AWS Region of your Amazon EC2 instances
+    * You can switch between Amazon EC2, AWS Fargate and/or AWS lambda
+* EC2 instance Saving Plans
+  * Commitment: I would spend c dollars per hour on Amazon EC2 instances of a specific instance family (General Purpose, for example) within a specific region
+  * Upto 72% off
+  * You can switch operating systems
