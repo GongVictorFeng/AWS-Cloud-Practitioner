@@ -311,3 +311,33 @@ EC2 Saving Plans
   * Auto scaling
   * Managed platform updates
   * Application health monitoring
+
+AWS Elastic Beanstalk Concepts
+* Application - A container for environments, versions and configuration
+* Application Version - A specific version of deployable code
+* Environment - An application version deployed to AWS resources. You can have multiple environments running different application version for the same application
+
+Auto Scaling Components
+* Launch Configuration/Template (What?)
+  * EC2 instance size and AMI
+* Auto Scaling Group (Where?)
+  * Min, max and desired size of ASG
+  * Health checks
+* Auto Scaling Policies (When?)
+  * When and How to execute scaling
+
+Dynamic Scaling Policy Types
+* Target tracking scaling 
+  * Modify current capacity based on a target value for a specific metric
+  * Example: Maintain CPU utilization at 70%
+* Simple scaling 
+  * Waits for cool-down period before triggering additional actions
+  * Example: +5 if CPU utilization > 80%; -3 if CPU utilization < 60%
+* Step scaling
+  * Warm up time can be configured for each instance
+  * Example:  +1 if CPU utilization between 70% and 80%;  
+    +3 if CPU utilization between 80% and 100%  
+    Similar settings for scale down
+* Scaling Policies - Background
+  * CloudWatch alarm (Is CPU utilization >80%? or < 60%)
+  * Scaling action ((+5 EC2 instances or -3 EC2 instances)
