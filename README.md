@@ -447,3 +447,138 @@ Amazon S3 vs S3 Glacier
   * Encryption
     * S3 - Optional
     * S3 Glacier - mandate
+
+## Storage Types - Block Storage and File Storage
+* What is the type of storage of the hard disk
+  * Block Storage
+* You've created a file share to share a set of files with your colleagues in a enterprise. What type of storage are you using
+  * File Storage
+
+Block Storage
+* Use case: Hard-disks attached to your computers
+* Typically, One Block Storage device can be connected to one virtual server
+* However, you can connect multiple different block storage devices to one virtual server
+
+File Storage
+* Media workflows need huge shared storage for supporting processes like video editing
+* Enterprise users need a quick way to share files in a secure and organized way
+* These file shares are shared by several virtual servers
+
+AWS - Block Storage and File Storage
+* Block Storage:
+  * Amazon Elastic Block Store (EBS)
+  * Instance store
+* File Storage:
+  * Amazon EFS (for Linux instances)
+  * Amazon FSx Windows File Servers
+  * Amazon FSx for Lustre (high performance use cases)
+
+EC2 -Block Storage
+* Two popular types of block storage can be attached to EC2 instances:
+  * Elastic Block Store (EBS)
+  * Instance Store
+* Instance Stores are physically attached to the EC2 instance
+  * Temporary data
+  * Lifecycle ties to EC2 instance
+* Elastic Block Store (EBS) is network storage
+  * More durable
+  * Lifecycle Not ties to EC2 instance
+
+Instance Store 
+* Physically attached to EC2 instance
+* Ephemeral storage
+  * Temporary data
+  * Data is lost when hardware fails or an instance is terminated
+  * Use case: cache or scratch files
+* Lifecycle is tied to EC2 instance
+* Only some of the EC2 instance types support instance store
+* Advantages:
+  * Very Fast (2-100x of EBS)
+  * No extra cost. Cost is included in the cost of EC2 instance
+  * Ideal for storing temporary information - cache, scratch files,...
+* Disadvantages
+  * Slow boot up (up to 5 minutes)
+  * Ephemeral storage (data is lost when hardware fails or instance is terminated)
+  * Can not take a snapshot or restore from snapshot
+  * Fixed size based on instance type
+  * You cannot detach and attach it to another EC2 instance
+
+Amazon Elastic Block Store (EBS)
+* Network block storage attached to your EC2 instance
+* Provisioned capacity
+* Very flexible
+  * Increase size when you need it - when attached to EC2 instance
+* Independent lifecycle from EC2 instance
+  * Attach/Detach from one EC2 instance to another
+* 99.999% Availability & replicated within the same AZ
+* Use case: Run your custom database
+* Update:
+  * Generally Block Storage devices can be connected to a single EC2 instance
+  * Amazon EBS Multi-Attach enables to attach a single Provisioned IOPS SSD volume to up to 16 Nitro-based instances that are in the same AZ.
+
+Hard Disk Drive vs Solid State Drive
+* Performance - IOPS
+  * HDD - Low
+  * SSD - High
+* Throughput
+  * HDD - High
+  * SSD - High
+* Great at
+  * HDD - Large sequential I/O operation
+  * SSD - Small, Random I/O operation & Sequential I/O
+* Recommended for
+  * HDD - Large streaming or big data workloads
+  * SSD - Transactional workloads
+* Cost 
+  * HDD - Low
+  * SSD - Expensive
+* Boot Volumes
+  * HDD - Not recommended
+  * SSD - Recommended
+
+Amazon EFS
+* Petabyte scale, Auto scaling, Pay for use shared file storage
+* Compatible with Amazon EC2 Linux-based instances
+* Use cases: Home directories, file share, content management
+* Alternative - Amazon FSx for lustre
+  * File system optimized for performance
+  * High performance computing (HPC) and media processing use cases
+  * Automatic encryption at-rest and in-transit
+* Alternative - Amazon FSx Windows File Servers
+  * Fully managed Windows file servers
+  * Accessible from Windows, Linux and MacOS instance
+  * Integrates with Microsoft Active Directory to support Windows-based environments and enterprises
+  * Automatic encryption at-rest and in-transit
+
+AWS Storage Gateway
+* Hybrid storage (cloud + on premise)
+* Unlimited cloud storage for on-premise software applications and users with good performance
+* Storage Gateway and S3 Glacier encrypt data by default
+* Three options
+  * AWS Storage File Gateway
+  * AWS Storage Tape Gateway
+  * AWS Storage Volume Gateway
+* AWS Storage File Gateway
+  * Problem Statement: Large on-premise file share with terabytes of data
+    * Users put files into file share and applications use the files
+    * Managing it is becoming expensive
+    * Move the file share to cloud without performance impact
+  * AWS Storage File Gateway provides cloud storage for file shares
+    * Files stored in Amazon S3 & Glacier
+* AWS Storage Tape Gateway
+  * Tape backups used in enterprises (archives)
+    * Stored off-site - expensive, physical war and tear
+  * AWS Storage Tape Gateway - Avoid physical tape backups
+  * No change needed for tape backup infrastructure
+  * Backup data to virtual tapes (actually, Amazon S3 & Glacier)
+* AWS Storage Volume Gateway
+  * Volume Gateway: Move block storage to cloud 
+  * Automate backup and disaster recovery
+  * Use cases: Backup and disaster recovery, Migration of application data
+  * Option 1 - Cached (Gateway Cached Volumes):
+    * Primary Data Store - AWS - Amazon S3
+    * On-premise cache stores frequently accessed data
+  * Option 2 - Stored (Gateway Stored Volumes)
+    * Primary Data Store - On-Premises
+    * Asynchronous copy to AWS
+    * Stored as EBS snapshots
