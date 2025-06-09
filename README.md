@@ -367,3 +367,83 @@ AWS Lambda - the most popular serverless service
   * Memory consumed
 * Supported lots of programming languages
 * AWS Lambda Event Sources: Amazon API Gateway, AWS Cognito,  Amazon DynamoDB (event), Amazon CloudFront (Lambda@Edge),  AWS Step Functions,...
+
+## Amazon S3 (Simple Storage Service)
+* Most popular, very flexible and inexpensive storage service
+* Store large objects using a key-value approach
+* Also called Object Storage
+* Provides REST API to access and modify objects
+* Provides unlimited storage:
+  * (S3 storage class) 99.99% availability and (11 9's) durability
+  * Objects are replicated in a single region (across multiple AZs)
+* Store all file types - text, binary, backup and archives:
+  * Media files and archives
+  * Application packages and logs
+  * Backups of databases or storage devices
+  * Staging data during on-premise to cloud database migration
+
+Objects and Buckets
+* Amazon S3 is a global service. Not associated with a region
+  * However, a bucket is created in a specific AWS region
+* Objects are stored in buckets
+  * Bucket names are globally unique
+  * Bucket names are used as part of object URLs => Can contain only lower case letters, numbers, hyphens and periods
+  * Unlimited objects in a bucket
+* Each object is identified by a key value pair
+  * Key is unique in a bucket
+  * Max object size is 5 TB
+
+Amazon S3 Storage Classes 
+* Different kinds of data can be stored in Amazon S3
+  * Media files and archives
+  * Application packages and logs
+  * Backups of the databases or storage devices
+  * Long term archives
+* Huge variations in access patterns
+* Trade-off between access time and cost
+* S3 storage classes help optimize costs while meeting access time needs
+* Storage Class:
+  * Standard - Frequently accessed data, >= 3 AZs
+  * Standard-IA - Long-lived, infrequently accessed data (backups for disaster recovery), >= 3 AZs
+  * One Zone-IA - Long-lived, infrequently accessed, non-critical data (Easily re-creatable data - thumbnails for images), 1 AZs
+  * Intelligent-Tiering - Long-lived data with changing or unknown access patterns, >= 3 AZs
+  * Glacier - Archive data with retrieval times ranging from minutes to hours, >= 3 AZs
+  * Glacier Deep Archive - Archive data that rarely, if ever, needs to be accessed with retrieval times in hours
+  
+Amazon S3 Cost
+* Important pricing elements:
+  * Cost of Storage (per GB)
+  * (If Applicable) Retrieval Charge (per GB)
+  * Monthly tiering fee (Only for intelligent Tiering)
+  * Data transfer fee
+* Free of cost:
+  * Data transfer into Amazon S3
+  * Data transfer from S3 to Amazon CloudFront
+  * Data transfer from S3 to services in the same region
+
+Amazon S3 Glacier
+* In addition to existing as a S3 Storage class, S3 Glacier is a separate AWS service on it own
+* Extremely low cost storage for archives and long-term backups:
+  * Old media content
+  * Archives to meet regulatory requirements (old patient records,...)
+  * As a replacement for magnetic tapes
+* High durability (11 9's)
+* High scalability (unlimited storage)
+* High security (encrypted at rest and in transfer)
+
+Amazon S3 vs S3 Glacier
+* Terminology:
+  * Amazon S3 - Objects (files) are stored in Buckets (container)
+  * S3 Glacier - Archives (files) are stored in Vaults (containers)
+* Keys
+  * S3 - Objects keys are user defined
+  * S3 Glacier - Archive keys are system generated identifiers
+* Mutability
+  * S3 - (Default) Allows uploading new content to object
+  * S3 Glacier - after an archive is created, it cannot be updated (Perfect for regulatory compliance)
+  * Max size
+    * S3 - Each object can be upto 5TB
+    * S3 Glacier - Each archive can be upto 40TB
+  * Encryption
+    * S3 - Optional
+    * S3 Glacier - mandate
