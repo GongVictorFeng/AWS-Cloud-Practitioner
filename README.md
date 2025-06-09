@@ -341,3 +341,29 @@ Dynamic Scaling Policy Types
 * Scaling Policies - Background
   * CloudWatch alarm (Is CPU utilization >80%? or < 60%)
   * Scaling action ((+5 EC2 instances or -3 EC2 instances)
+
+## Serverless
+* A concept of focusing on building application without worrying about servers
+* What are the things we think about while developing an application
+  * Where do we deploy the application
+  * What kind of server? What OS
+  * How do we take care of scaling the application
+  * How do we ensure that it is always available
+* Serverless does not mean "No Servers"
+  * Do not worry about infrastructure
+  * Flexible scaling 
+  * Automated high availability
+  * Pay for use:
+    * You don't have to provision servers or capacity
+  * focus on code and the cloud managed service takes care of all that is needed to scale the code to server millions of requests
+
+AWS Lambda - the most popular serverless service
+* World before Lambda - ELB with EC2 servers
+* Do not worry about servers or scaling or availability
+* Focus on code
+* Pay for what use
+  * Number of requests
+  * Duration of requests
+  * Memory consumed
+* Supported lots of programming languages
+* AWS Lambda Event Sources: Amazon API Gateway, AWS Cognito,  Amazon DynamoDB (event), Amazon CloudFront (Lambda@Edge),  AWS Step Functions,...
