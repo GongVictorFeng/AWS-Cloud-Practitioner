@@ -621,3 +621,195 @@ Database - Add a Standby
   * Solved: Database will be slow when you take snapshots
     * Take snapshots from standby
     * Applications connecting to master will get good performance always.
+
+Availability and Durability
+* Availability
+  * Will I be able to access my data now and when I need it
+  * Percentage of time an application provides the operation
+* Durability
+  * Will my data be available after 10 or 100 or 1000 years
+* Examples of measuring availability and durability:
+  * 4 9's - 99.99
+  * 11 9's - 99.999999999
+* Typically, an availability of four 9's is considered very good
+* Typically, a durability of eleven 9's is considered very good
+* Increase Availability:
+  * Have multiple standbys available
+    * In multiple AZs
+    * In multiple regions
+* Increasing Durability:
+  * Multiple copies of data (standbys, snapshots, transaction logs and replicas)
+    * In multiple AZs
+    * In multiple Regions
+
+Database Terminology: RTO and RPO
+* Typically, businesses are fine with some downtime, but they hate losing data
+* How to measure how quickly we can recover from failure
+  * RPO (Recovery Point Objective): Maximum acceptable period of data loss
+  * RTO (Recovery Time Objective): maximum acceptable downtime
+* Achieving minimum RTO and RPO is expensive
+* Trade-off based on the criticality of the data
+* Achieving RTO and RPO - Failover Example
+  * Very small data loss (RPO - 1 minute), very small downtime (RTO - 5 minutes)
+    * Hot standby - Automatically synchronized data, have a standby ready to pick up load, automatic failover from the master to the standby
+  * Very small data loss (RPO - 1 minute), but some downtimes can be tolerated (RTO - 15 minutes)
+    * Warm standby - Automatically synchronize data, have a standby with minimum infrastructure, scale it up when a failure happens
+  * Data is critical (RPO - 1 minute), but the downtime can be tolerated for a few hours
+    * Create regular data snapshots and transaction logs, create database from snapshots and transaction logs when a failure happens
+  * Data can be lost without a problem (cache data)
+    * Failover to a completely new server
+
+(New Scenario) Reporting and Analytics Applications
+* New reporting and analytics applications are being launched using the same database
+  * These application will ONLY read data
+* Within a few days you see that the database performance is impacted
+* How to fix the problem
+  * Vertically scale the database - increase CPU and memory
+  * Create a database cluster - typically database clusters are expensive to set up
+    * Create read replicas - Run read only applications against read replicas 
+* Read Replicas
+  * Add read replica
+  * Connect reporting and analytics applications to read replica
+  * Reduces load on teh master databases
+  * Upgrade read replica to master database (supported by some databases)
+  * Create read replicas in multiple regions
+  * Take snapshots from read replicas
+  * Typically, Asynchronous replication
+
+Consistency
+* How to ensure that data in multiple database instances (standbys and replicas) is updated simultaneously
+* Strong consistency - Synchronous replication to all replicas
+  * will be slow if you have multiple replicas or standbys
+* Eventual consistency - Asynchronous replication. A little lag - few seconds - before the change is available in all replicas
+  * In the intermediate period, different replicas might return different values
+  * Used when scalability is more important than data integrity
+  * Examples: Social Media Posts - Facebook status messages, Twitter tweets, Linked-in posts etc
+* Read-after-Write consistency - Inserts are immediately available. Updates and deletes are eventually consistent
+  * Amazon S3 provides read-after-write consistency
+
+Database Categories
+* There are several categories of databases:
+  * Relational (OLTP and OLAP), Document, Key value, graph etc
+* Choosing type of database for the use case is not easy. A few factors:
+  * Do you want a fixed schema
+    * Do you want flexibility in defining and changing your schema (schemaless)
+  * What level of transaction properties do you need (consistency)
+  * What kind of latency do you want (seconds, milliseconds or microseconds)
+  * How many transactions do you expect
+  * How much data will be stored
+  * and a lot more...
+
+Relational Databases
+* Only option until a decade back
+* Most popular type of databases
+* Predefined schema - tables and relationships
+* Supports Complex SQL Queries
+* Very strong transactional capabilities
+* Used for OLTP and OLAP
+* OLTP (Online Transaction Processing) 
+  * Applications where large number of users make large number of small transactions
+    * small data reads, updates and deletes
+  * Use cases: Most traditional applications - ERP, CRM, e-commerce, banking applications
+  * Popular databases: MySQL, Oracle, SQL server etc
+  * Amazon RDS 
+    * Amazon RDS is a managed relational database service for OLTP use cases
+    * Supports:
+      * Amazon Aurora
+      * PostgreSQL
+      * MySQL
+      * MariaDB
+      * Oracle Database
+      * Microsoft SQL Server
+    * Multi-AZ deployment (standby in another AZ)
+    * Read replicas:
+      * Same AZ
+      * Multi AZ (Availability+)
+      * Cross Region (Availability+)
+    * Storage auto scaling (up to a configured limit)
+    * Automated backup (restore to point in time)
+    * Manual snapshots
+    * AWS is responsible for 
+      * Availability
+      * Durability
+      * Scaling
+      * Maintenance (patches)
+      * Backups
+    * You are responsible for
+      * Managing database users
+      * App optimization (table, indexes etc)
+    * You cannot
+      * SSH into database EC2 instances or set up custom software 
+      * install OS or DB patches
+    * Amazon Aurora
+      * MySQL and PostgreSQL compatible
+      * 2 copies of data each in a minimum of 3 AZ
+      * Provides "Global Database" option
+        * Up to five read-only, secondary AWS Regions
+          * Low latency for global reads
+          * Safe from region-wide outages
+        * Minimal lag time, typically less than 1 second
+      * Use Amazon RDS for transactional applications needing
+        * Pre-defined schema
+        * Strong transactional capabilities
+        * Complex queries
+      * Amazon RDS is Not recommended when 
+        * you need highly scalable massive read/write operations
+          * Go for DynamoDB
+        * When you want to upload files using simple GET/PUT REST API
+          * Go for Amazon S3
+        * When you need heavy customizations for your database or need access to underlying EC2 instances
+          * Go for a custom database installation
+* OLAP (Online Analytics Processing)
+  * Applications allowing users to analyze petabytes of data
+  * Examples: Reporting applications, data warehouse, Business intelligence applications, Analytics systems
+  * Sample application: Decide insurance premiums by analyzing data from last hundred years
+  * Data is consolidated from multiple (transactional) databases
+  * OLAP vs OLTP
+    * OLAP and OLTP use similar data structures
+    * But very different approach in how data is stored
+    * OLTP databases use row storage
+      * Each table row is stored together
+      * Efficient for processing small transactions
+    * OLAP databases use columnar storage
+      * Each table column is stored together
+      * High compression - store petabytes of data efficiently
+      * Distribute data - one table in multiple cluster nodes
+      * Execute single query across multiple nodes - Complex queries can be executed efficiently
+  * Amazon Redshift
+    * Redshift is a relational database (table and relationships)
+    * What is the need for another relational database
+      * RDS is optimized for online transaction processing
+      * RDS is optimized to provide a balance between both reads and write operations
+    * However, OLAP workloads have exponentially larger reads on the databases compared to writes:
+      * Can we use a different approach to design the database
+      * How about creating a cluster and splitting the execution of the same query across several nodes
+    * Redshift is a petabyte-scale distributed data warehouse based on PostgreSQL
+    * Three important characteristics of Redshift:
+      * Massively parallel processing (MPP) - storage and processing can be split across multiple nodes
+      * Columnar data storage
+      * High data compression
+    * As a result
+      * A single row of data might be stored across multiple nodes
+      * A query to Redshift leader node is distributed to multiple compute nodes for execution
+    * Start with a single node configuration and scale to multi node configuration
+    * You can dynamically add and remove nodes
+    * Used for traditional ETL (Extract, Transform, Load), OLAP and Business Intelligence (BI) use cases
+      * Optimized for high-performance analysis and reporting of very large datasets
+    * Supports standard SQL
+    * Integration with data loading, reporting, mining and analytics tools
+  * Amazon EMR - Elastic MapReduce
+    * Managed Hadoop service with high availability and durability
+    * EMR gives access to underlying OS => You can SSH into it
+    * Important tools in Hadoop ecosystem are natively supported
+      * Examples: Pig, Hive, Spark or Presto
+    * Install others using bootstrap actions
+    * Use cases 
+      * Log processing for insights
+      * Click stream analysis for advertisers
+      * Genomic and life science dataset processing
+  * Amazon Redshift and EMR Alternatives
+    * Amazon EMR - For big data frameworks like Apache Spark, Hadoop, Presto, orHbase to do large scale data processing that needs high customization. For example: machine learning, graph analytics etc
+    * Amazon Redshift - Run complex queries against data warehouse - housing structured and unstructured data pulled in from a variety of sources
+    * Amazon Redshift Spectrum - Run queries directly against S3 without worrying about loading entire data from S3 into data warehouse
+    * Amazon Athena - Quick ad-hoc queries without worrying about provisioning a compute cluster (serverless).  Amazon Redshift Spectrum is recommended if you are executing queries frequently
+      against structured data
