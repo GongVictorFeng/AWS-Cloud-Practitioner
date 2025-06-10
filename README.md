@@ -582,3 +582,42 @@ AWS Storage Gateway
     * Primary Data Store - On-Premises
     * Asynchronous copy to AWS
     * Stored as EBS snapshots
+
+## Databases Primer
+* Databases provide organized and persistent storage for data
+* To choose between different database types, we need to understand:
+  * Availability
+  * Durability 
+  * Consistency
+  * Transactions etc
+
+Database - Getting Started
+* Imaging a database deployed in a data center in London
+* challenges:
+  * The database will go down if the data center crashes or the server storage fails
+  * The data will be lost if the database crashes
+
+Database - Snapshots
+* Automate taking copy of the database (take a snapshot) every hour to another data center in London
+* Challenges:
+  * The database will go down if the data center crashes
+  * Partially solved : the data will be lost if the database crashes
+    * You can set up database from latest snapshot. But depending on when failure occurs, you can lose up to an hour of data
+  * Database will be slow when you take snapshots
+
+Database - Transaction Logs
+* Adding transaction logs to database and create a process to copy it over to the second data center
+* Challenges:
+  * The database will go down if the data center crashes
+  * Solved: the data will be lost if the data center crashes
+    * You can set up database from latest snapshot and apply transaction logs
+  * Database will be slow when taking the snapshots
+
+Database - Add a Standby
+* Adding a standby database in the second data center with synchronous replication
+* Challenges:
+  * Solved: the database will go down if the data center crashes
+  * Solved: the data will be lost if the database crashes
+  * Solved: Database will be slow when you take snapshots
+    * Take snapshots from standby
+    * Applications connecting to master will get good performance always.
