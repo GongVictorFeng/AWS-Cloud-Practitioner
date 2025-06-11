@@ -811,5 +811,76 @@ Relational Databases
     * Amazon EMR - For big data frameworks like Apache Spark, Hadoop, Presto, orHbase to do large scale data processing that needs high customization. For example: machine learning, graph analytics etc
     * Amazon Redshift - Run complex queries against data warehouse - housing structured and unstructured data pulled in from a variety of sources
     * Amazon Redshift Spectrum - Run queries directly against S3 without worrying about loading entire data from S3 into data warehouse
-    * Amazon Athena - Quick ad-hoc queries without worrying about provisioning a compute cluster (serverless).  Amazon Redshift Spectrum is recommended if you are executing queries frequently
-      against structured data
+    * Amazon Athena - Quick ad-hoc queries without worrying about provisioning a compute cluster (serverless).  Amazon Redshift Spectrum is recommended if you are executing queries frequently against structured data
+
+Non - Relational Database
+* Document Database
+  * Structure data the way your application needs it
+  * Create one table instead of dozens
+  * Quickly evolving semi structured data (schema-less) - Json format
+  * Easily distributable
+  * Advantages: (Horizontally) Scalable to terabytes of data with millisecond responses upto millions of transactions per second
+  * Use cases: Content management, catalogs, user profile
+* Key-value
+  * Use a simple key-value pair to store data. Key is a unique identifier
+  * Values can be objects, compound objects or simple data values
+  * Advantages: (Horizontally) Scalable to terabytes of data with millisecond responses upto millions of transactions per second
+  * Use cases: Shopping carts, session stores, gaming application and very high traffic web apps
+* Amazon DynamoDB
+  * Fast, scalable, distributed for any scale
+  * Flexible NoSQL Key-value & document database (schemaless)
+  * Single-digit millisecond responses for millions of TPS
+  * Do not worry about scaling, availability or durability
+    * Automatically partitions data as it grows
+    * Maintains 3 replicas within the same region
+  * No need to provision a database
+    * Create a table and configure read and write capacity (RCU and WCU)
+    * automatically scales to meet your RCU and WCU
+  * Provides an expensive serverless mode
+  * Use cases: User profiles, shopping carts, high volume read write applications
+  * DynamoDB Tables
+    * Hierarchy: Table > items > attributes (key value pair)
+    * Mandatory primary key
+    * Other that the primary key, tables are schemaless
+      * No need to define the other attributes or types
+      * Each item in a table can have distinct attributes
+    * Max 400 KB per item in table
+      * Use S3 for large objects and DynamoDB for smaller objects
+* In-memory Databases (or Caches)
+  * Retrieving data from memory is much faster from retrieving data from disk
+  * You can speed up dynamic database-driven websites by caching data and objects in memory. Ex: Memcached
+  * You can deliver microsecond latency by storing persistent data in memory. Ex: Redis
+  * Use cases: Caching, session management, gaming leader boards, geospatial applications
+  * Amazon ElastiCache
+    * Highly scalable & low latency in-memory data store
+    * Used for distributed caching
+    * Option 1 - ElastiCache Memcached:
+      * Low maintenance simple caching solution
+      * Easy horizontal scaling with auto discovery
+      * Use case: Speed up database-driven websites by caching data
+    * Option 2 - ElastiCache Redis:
+      * Persistence
+      * Advanced Features:
+        * Publish subscribe messaging
+        * Read replicas and failover
+        * Encryption
+      * Use cases: gaming leader boards, queues, real-time analytics
+
+Databases - Summary
+* Relational OLTP databases - Amazon RDS
+  * Row storage
+  * Transactional use cases needing predefined schema and very strong transactional capabilities
+* Relational OLAP databases - Amazon Redshift
+  * Columnar storage
+  * Reporting, analytic & intelligence apps needing predefined schema
+* Document & Key-value databases - Amazon DynamoDB
+  * Apps needing quickly evolving semi structure data (schemaless)
+  * Scale to terabytes of data with millisecond responses upto millions of TPS
+  * Content management, catalogs, user profiles, shopping carts, session stores and gaming applications
+  * Graph Databases - Amazon Neptune
+    * Store and navigate data with complex relationships
+    * Social Networking Data (Twitter, Facebook), Fraud Detection
+  * In memory databases/caches - Amazon ElastiCache
+    * Applications needing microsecond responses
+    * Redis - Persistent data
+    * Memcached - Simple caches
