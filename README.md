@@ -884,3 +884,35 @@ Databases - Summary
     * Applications needing microsecond responses
     * Redis - Persistent data
     * Memcached - Simple caches
+
+## VPC - Virtual Private Cloud
+Need for Amazon VPC
+* In a corporate network or an on-premises data center:
+  * Can anyone on the internet see the data exchange between the application and the database - No
+  * Can anyone  from internet directly connect to your database - No
+    * You need to connect to your corporate network and then access your applications or databases
+* Corporate network provides a secure internal network protecting your resources, data and communication from external users
+* How to create your own private network in the cloud
+  * Virtual Private Cloud (VPC)
+
+Amazon VPC
+* You own isolated network in AWS cloud
+  * Network traffic within a VPC is isolated (not visible) from all other Amazon VPCs
+* You control all the traffic coming in and going outside a VPC
+* (Best Practice) Create all your AWS resources (compute, storage, databases,...) within a VPC
+  * Secure resources from unauthorized access
+  * Enable secure communication between your cloud resources
+
+Need for VPC Subnets
+* Different resources are created on cloud -databases, compute (EC2),...
+* Each type of resource has its own access needs
+* Public Elastic Load Balancers are accessible from internet (public resources)
+* Databases or EC2 instances should not be accessible from internet
+  * Only applications within your network (VPC) should be able to access them (private resources)
+* How to separate public resources from private resources inside a VPC
+  * Solution - Create different subnets for public and private resources
+    * Resource in a public subnet can be accessed from internet
+    * Resources in a private subnet cannot be accessed from internet
+    * BUT resources in public subnet can talk to resources in private subnet
+* Each VPC is created in a Region
+* Each subnet is created in an Availability Zone
