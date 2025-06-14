@@ -916,3 +916,9 @@ Need for VPC Subnets
     * BUT resources in public subnet can talk to resources in private subnet
 * Each VPC is created in a Region
 * Each subnet is created in an Availability Zone
+
+Routing on the internet
+* You have an IP address of a website you want to visit
+* There is no direct connection from your computer to the website
+* Internet is actually a set of routers routing traffic
+* Each router has a set of rules that help it decide the path to the destination IP address
