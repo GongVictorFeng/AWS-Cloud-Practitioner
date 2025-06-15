@@ -922,3 +922,86 @@ Routing on the internet
 * There is no direct connection from your computer to the website
 * Internet is actually a set of routers routing traffic
 * Each router has a set of rules that help it decide the path to the destination IP address
+
+Routing inside AWS
+* In AWS, route tables are used for routing
+* Route tables can be associated with VPCs and subnets
+* Each route table consists of a set of rules called routes
+  * Each route or routing rule has a destination and target
+  * What Range of Addresses should be routed to which target resource
+* Example 1:
+  * Destination - 172.31.0.0/16; Target - Local
+  * Destination - 0.0.0.0/0; Target - igw-1234567
+  * Route requests to VPC CIDR 172.31.0.0/16 (172.31.0.0 to 172.31.255.255) to local resources within the VPC
+  * Route all other IP addresses (0.0.0.0/0) to internet (internet gateway)
+
+Public Subnet vs Private Subnet
+* Public Subnet
+  * Communication allowed from subnet to internet
+  * Communication allowed from internet to subnet
+* Private Subnet
+  * Communication Not allowed from internet to subnet
+* An Internet Gateway enables internet communication for subnets'
+* Any subnet which has a route to an internet gateway is called a public subnet
+* Any subnet which does not have route to an internet gateway is called a private subnet
+
+Network Address Translation(NAT) Instance and Gateway
+* How do you allow instances in a private subnet to download software updates and security patches while denying inbound traffic from internet
+* How do you allow instances in a private subnet to connect privately to other AWS Services outside the VPC
+* Three Options:
+  * NAT Gateway: Managed Service
+  * NAT Instance: Install a EC2 instance with specific NAT AMI and configure as a gateway
+  * Egress-Only Internet Gateways: For IPv6 subnets
+
+Network Access Control List
+* Security groups control traffic to a specific resource in a subnet
+* How about stopping traffic from even entering the subnet?
+* NACL provides stateless firewall at subnet level
+* Each subnet must be associated with a NACL
+* Default NACL allows all inbound and outbound traffic 
+* Custom created NACL denies all inbound and outbound traffic by default
+* Rules have a priority number
+  * Lower number => Higher priority
+
+VPC Flow Logs
+* Monitor network traffic
+* Troubleshoot connectivity issues (NACL and/or groups misconfiguration)
+* Capture traffic going in and out of your VPC (Network interfaces)
+* Can be created for 
+  * a VPC
+  * a subnet
+* Publish logs to Amazon CloudWatch Logs or Amazon S3
+* Flow log records contain ACCEPT or REJECT
+  * Is traffic is permitted by security groups or network ACLs
+
+VPC Peering
+* Connect VPCs belonging to the same or different AWS accounts irrespective of the region of the VPCs
+* Allows private communication between the connected VPCs
+* Peering uses a request/accept protocol
+  * Owner of requesting VPC sends a request
+  * Owner of the peer VPC has one week to accept
+
+AWS and On-Premises
+* AWS Managed VPN
+  * IP secure VPN tunnels from VPC to customer network
+  * Traffic over internet - encrypted using IP security protocol
+  * VPN gateway to connect one VPC to customer network 
+  * Customer gateway installed in customer network
+    * You need a Internet-routable IP address of customer gateway
+* AWS Direct Connect (DX)
+  * Private dedicated network connection from on-premises to AWS
+  * Advantages:
+    * Private network
+    * Reduce your (ISP) bandwidth costs
+    * Consistent Network performance because of private network
+  * Establishing DC connection can take more than a month
+
+VPC - Review
+* VPC: Virtual Network to protect resources and communication from outside world
+* Subnet: Separate private resources from public resources
+* Internet Gateway: Allow Public Subnets to connect/accept traffic to/from internet
+* NAT Gateway: Allow internet traffic from private subnets
+* VPC Peering: Connect one VPC with other VPCs
+* VPC Flow Logs: Enable logs to debug problems
+* AWS Direct Connect: Private pipe from AWS to on-premises
+* AWS VPN: Encrypted (IPsec) tunnel over internet to on-premises
